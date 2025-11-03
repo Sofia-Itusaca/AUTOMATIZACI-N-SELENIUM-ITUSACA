@@ -1,0 +1,12 @@
+﻿# Ignorar carpetas de Visual Studio
+.vs /
+bin /
+obj /
+TestResults /
+*.user
+*.suo
+
+# Ignorar archivos temporales
+*.tmp
+*.log
+*.cache
