@@ -343,16 +343,16 @@ namespace PruebaSeleniumSIGES.Tests
             try
             {
                 Reporte.IniciarReporte();
-                Reporte.CrearTest("P020 - Buscar pedido por cliente con y sin tilde ('Jose' / 'José')");
+                Reporte.CrearTest("P015 - Buscar pedido por cliente con y sin tilde ('Jose' / 'José')");
 
                 pedidos.BuscarPedidoPorClienteConYSinTilde();
 
-                Reporte.Log(pedidos.Driver, "✅ Prueba P020 completada (comparación de 'Jose' y 'José').");
+                Reporte.Log(pedidos.Driver, "✅ Prueba P015 completada (comparación de 'Jose' y 'José').");
                 Reporte.FinalizarReporte();
             }
             catch (Exception ex)
             {
-                Reporte.Log(pedidos.Driver, $"❌ Error en P020: {ex.Message}");
+                Reporte.Log(pedidos.Driver, $"❌ Error en P015: {ex.Message}");
                 throw;
             }
             finally
@@ -1783,7 +1783,7 @@ namespace PruebaSeleniumSIGES.Tests
 
                 pedidos.FiltrarEstadoInvalidadoYClienteInexistente();
 
-                Reporte.Log(pedidos.Driver, "✅ Prueba P085 completada con éxito (Estado INVALIDADO / Cliente inexistente PEDRO).");
+                Reporte.Log(pedidos.Driver, "✅ Prueba P085 completada con éxito (Estado INVALIDADO / Cliente inexistente zavala).");
                 Reporte.FinalizarReporte();
             }
             catch (Exception ex)

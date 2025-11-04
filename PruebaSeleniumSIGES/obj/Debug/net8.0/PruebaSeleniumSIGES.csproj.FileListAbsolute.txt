@@ -218,3 +218,4 @@ C:\Users\asilk\source\repos\PruebaSeleniumSIGES\PruebaSeleniumSIGES\obj\Debug\ne
 C:\Users\asilk\source\repos\PruebaSeleniumSIGES\PruebaSeleniumSIGES\obj\Debug\net8.0\PruebaSeleniumSIGES.pdb
 C:\Users\asilk\source\repos\PruebaSeleniumSIGES\PruebaSeleniumSIGES\obj\Debug\net8.0\PruebaSeleniumSIGES.genruntimeconfig.cache
 C:\Users\asilk\source\repos\PruebaSeleniumSIGES\PruebaSeleniumSIGES\obj\Debug\net8.0\ref\PruebaSeleniumSIGES.dll
+C:\Users\asilk\source\repos\PruebaSeleniumSIGES\PruebaSeleniumSIGES\obj\Debug\net8.0\PruebaSeleniumSIGES.sourcelink.json

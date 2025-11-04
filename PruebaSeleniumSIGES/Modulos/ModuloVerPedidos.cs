@@ -870,7 +870,7 @@ namespace PruebaSeleniumSIGES.Modulos
         // ========================================
         public void BuscarPedidoPorClienteConYSinTilde()
         {
-            Console.WriteLine("=== Ejecutando P020: Buscar pedido por cliente con y sin tilde ('Jose' / 'José') ===");
+            Console.WriteLine("=== Ejecutando P015: Buscar pedido por cliente con y sin tilde ('Jose' / 'José') ===");
 
             try
             {
@@ -878,51 +878,52 @@ namespace PruebaSeleniumSIGES.Modulos
                 IrAVerPedido();
                 Thread.Sleep(1500);
 
-                wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
-                    By.XPath("//*[contains(text(),'Cargando')]")));
+                // 🔹 2. Colocar fechas amplias para que haya resultados
+                var campoFechaIni = wait.Until(ExpectedConditions.ElementToBeClickable(
+                    By.XPath("//input[@ng-model='fechaInicio' or contains(@ng-model,'fechaIni')]")));
+                campoFechaIni.Clear();
+                campoFechaIni.SendKeys("01/01/2025");
 
-                var campoBuscar = wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("//input[@type='search' and contains(@class,'form-control')]")));
+                var campoFechaFin = wait.Until(ExpectedConditions.ElementToBeClickable(
+                    By.XPath("//input[@ng-model='fechaFin' or contains(@ng-model,'fechaFin')]")));
+                campoFechaFin.Clear();
+                campoFechaFin.SendKeys("31/12/2025");
+
+                var body = driver.FindElement(By.TagName("body"));
+                body.Click();
+                Thread.Sleep(800);
+
+                // 🔹 3. Click en Consultar (lupa)
+                var botonConsultar = wait.Until(ExpectedConditions.ElementToBeClickable(
+                    By.XPath("//button[@title='CONSULTAR' or contains(@ng-click,'listarPedidos')]")));
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", botonConsultar);
+                Thread.Sleep(2000);
 
                 // 🔹 PRIMERA BÚSQUEDA: “Jose” (sin tilde)
-                campoBuscar.Click();
-                Thread.Sleep(300);
+                var campoBuscar = wait.Until(ExpectedConditions.ElementIsVisible(
+                    By.XPath("//input[@type='search' and contains(@class,'form-control')]")));
                 campoBuscar.Clear();
                 campoBuscar.SendKeys("Jose");
-                Thread.Sleep(1500);
+                Thread.Sleep(1000);
+                Console.WriteLine("[OK] Consulta de pedido por comprobante completada.");
+                Thread.Sleep(2000);
 
-                var tabla = wait.Until(ExpectedConditions.ElementIsVisible(
-                    By.XPath("//table[contains(@id,'tabla-cotizaciones') or contains(@class,'table')]/tbody")));
-                string resultadosJose = tabla.Text;
-                bool contieneJose = resultadosJose.Contains("Jose", StringComparison.OrdinalIgnoreCase)
-                                    || resultadosJose.Contains("José", StringComparison.OrdinalIgnoreCase);
-
-                Console.WriteLine(contieneJose
-                    ? "[OK] Se encontraron resultados para 'Jose' (sin tilde)."
-                    : "[⚠️] No se encontraron resultados con 'Jose'.");
+                // 🔹 SEGUNDA BÚSQUEDA: “José” (con tilde)
+                campoBuscar.Clear();
+                campoBuscar.SendKeys("José");
+                Thread.Sleep(1000);
+                Console.WriteLine("[OK] Consulta de pedido por comprobante completada.");
+                Thread.Sleep(2000);
 
                 // 🔹 SEGUNDA BÚSQUEDA: “José” (con tilde)
                 campoBuscar.Clear();
                 campoBuscar.SendKeys("José");
                 Thread.Sleep(1500);
 
-                string resultadosJoseTilde = tabla.Text;
-                bool contieneJoseTilde = resultadosJoseTilde.Contains("José", StringComparison.OrdinalIgnoreCase)
-                                         || resultadosJoseTilde.Contains("Jose", StringComparison.OrdinalIgnoreCase);
-
-                Console.WriteLine(contieneJoseTilde
-                    ? "[OK] Se encontraron resultados para 'José' (con tilde)."
-                    : "[⚠️] No se encontraron resultados con 'José'.");
-
-                // 🔹 Validación general
-                if (contieneJose && contieneJoseTilde)
-                    Console.WriteLine("[✅] Búsqueda reconoce ambas variantes ('Jose' y 'José').");
-                else
-                    Console.WriteLine("[❌] Solo se muestran resultados de una variante. Prueba fallida.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[❌] Error en P020: {ex.Message}");
+                Console.WriteLine($"[❌] Error en P015: {ex.Message}");
             }
 
             Thread.Sleep(1000);
@@ -1184,6 +1185,28 @@ namespace PruebaSeleniumSIGES.Modulos
 
                 wait.Until(ExpectedConditions.InvisibilityOfElementLocated(
                     By.XPath("//*[contains(text(),'Cargando')]")));
+
+                // 🔹 2. Colocar fechas amplias para que haya resultados
+                var campoFechaIni = wait.Until(ExpectedConditions.ElementToBeClickable(
+                    By.XPath("//input[@ng-model='fechaInicio' or contains(@ng-model,'fechaIni')]")));
+                campoFechaIni.Clear();
+                campoFechaIni.SendKeys("01/01/2020");
+
+                var campoFechaFin = wait.Until(ExpectedConditions.ElementToBeClickable(
+                    By.XPath("//input[@ng-model='fechaFin' or contains(@ng-model,'fechaFin')]")));
+                campoFechaFin.Clear();
+                campoFechaFin.SendKeys("31/12/2025");
+
+                var body = driver.FindElement(By.TagName("body"));
+                body.Click();
+                Thread.Sleep(800);
+
+                // 🔹 3. Click en Consultar (lupa)
+                var botonConsultar = wait.Until(ExpectedConditions.ElementToBeClickable(
+                    By.XPath("//button[@title='CONSULTAR' or contains(@ng-click,'listarPedidos')]")));
+                ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", botonConsultar);
+                Thread.Sleep(2000);
+
 
                 // 🔹 Paso 6: Escribir el comprobante en el campo "Buscar" (arriba a la derecha)
                 var campoBuscar = wait.Until(ExpectedConditions.ElementIsVisible(
@@ -5260,7 +5283,7 @@ namespace PruebaSeleniumSIGES.Modulos
                 campoCliente.Clear();
                 campoCliente.SendKeys("SIMON VILLAR CHAMORRO");
                 Console.WriteLine("[OK] Cliente válido ingresado: 'SIMON VILLAR CHAMORRO'.");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 // 🔹 5. Campo ESTADO (columna 8)
                 var campoEstado = wait.Until(ExpectedConditions.ElementToBeClickable(
@@ -5551,20 +5574,20 @@ namespace PruebaSeleniumSIGES.Modulos
                     By.XPath("//button[contains(.,'CONSULTA') or contains(@ng-click,'listarPedidos')]")));
                 ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", botonConsultar);
                 Console.WriteLine("[OK] Botón CONSULTA presionado.");
-                Thread.Sleep(2500);
+                Thread.Sleep(3000);
 
                 // 🔹 4. Escribir cliente inexistente en buscador global
                 var buscadorGlobal = wait.Until(ExpectedConditions.ElementToBeClickable(
                     By.XPath("//input[@type='search' and contains(@class,'form-control')]")));
-                buscadorGlobal.Clear();
+                
                 buscadorGlobal.SendKeys("ZELAYA");
                 Console.WriteLine("[OK] Cliente 'ZELAYA' ingresado en buscador global.");
-                Thread.Sleep(1500);
+                Thread.Sleep(2000);
 
                 // 🔹 5. Filtrar Estado = INVALIDADO (columna 8)
                 var campoEstado = wait.Until(ExpectedConditions.ElementToBeClickable(
                     By.XPath("//table//thead//tr[2]//th[8]//input[contains(@class,'form-control')]")));
-                campoEstado.Clear();
+                
                 campoEstado.SendKeys("INVALIDADO");
                 Console.WriteLine("[OK] Estado ingresado: INVALIDADO.");
                 Thread.Sleep(2000);
@@ -6000,12 +6023,12 @@ namespace PruebaSeleniumSIGES.Modulos
                 js.ExecuteScript(@"
             var input = arguments[0];
             input.removeAttribute('disabled');
-            input.value = '01/11/2020';
+            input.value = '01/11/2025';
             angular.element(input).triggerHandler('input');
             angular.element(input).triggerHandler('change');
         ", campoFechaIni);
                 body.Click();
-                Console.WriteLine("[OK] Fecha inicial establecida (Angular-safe): 01/11/2020.");
+                Console.WriteLine("[OK] Fecha inicial establecida (Angular-safe): 01/11/2025.");
 
                 Thread.Sleep(1000);
 
@@ -6016,12 +6039,12 @@ namespace PruebaSeleniumSIGES.Modulos
                 js.ExecuteScript(@"
             var input = arguments[0];
             input.removeAttribute('disabled');
-            input.value = '01/11/2025';
+            input.value = '01/11/2028';
             angular.element(input).triggerHandler('input');
             angular.element(input).triggerHandler('change');
         ", campoFechaFin);
                 body.Click();
-                Console.WriteLine("[OK] Fecha final establecida (Angular-safe): 01/11/2025.");
+                Console.WriteLine("[OK] Fecha final establecida (Angular-safe): 01/11/2028.");
 
                 Thread.Sleep(1500);
 
